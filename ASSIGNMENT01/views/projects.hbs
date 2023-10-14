@@ -1,0 +1,94 @@
+<style>
+
+.container {  display: grid;
+  grid-template-columns: 300px 300px 300px 300px;
+  grid-template-rows: 800px;
+  grid-auto-rows: 1fr;
+  gap: 5px 05px;
+  grid-auto-flow: row;
+  align-content: center;
+  justify-items: center;
+  align-items: center;
+  grid-template-areas:
+    "projectOne projectTwo projectThree projectFour";
+}
+
+.projectOne {  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "."
+    ".";
+  grid-area: projectOne;
+}
+
+.projectTwo { display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "."
+    ".";
+    grid-area: projectTwo; }
+
+.projectThree { display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "."
+    ".";
+    grid-area: projectThree; }
+
+.projectFour { display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "."
+    ".";
+    grid-area: projectFour; }
+
+
+
+/* For presentation only, no need to copy the code below */
+
+.container * {
+  border: 1px solid red;
+  position: relative;
+}
+
+.container *:after {
+  content:attr(class);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+}
+</style>
+
+
+<div class="fullPage">
+<div class="outer">
+<div class="tile">
+    <h2>Project I have Done</h2>
+</div>
+<div class="container">
+    <div class="projectOne"></div>
+    <div class="projectTwo"></div>
+    <div class="projectThree"></div>
+    <div class="projectFour"></div>
+</div>
+
+</div>
+
+</div>

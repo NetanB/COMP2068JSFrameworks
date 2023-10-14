@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <!-- 
+      all resources and tutorials used to create this project are mentioned below.
+      General scaffolding using Class lecture 3/4
+      https://www.youtube.com/watch?v=yGt33Z2qu1I&list=PLW7IVDer0bpbtaY6gZ9FGQj3ma2YBpbSy&index=4
+    
+      navbar tutorials
+      https://www.youtube.com/watch?v=PwWHL3RyQgk
+  
+      html and css tutorials
+      https://www.youtube.com/watch?v=0feUz5qIloI
+
+      
+  
+  
+  -->
+  <head>
+    <title>{{title}}</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css"
+      integrity="sha512-HHsOC+h3najWR7OKiGZtfhFIEzg5VRIPde0kB0bG2QRidTQqf+sbfcxCTB16AcFB93xMjnBIKE29/MjdzXE+qw=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+  </head>
+  <body>
+    <div class="header">
+      <div class="logo">
+        Netan&#39;s Portfolio
+      </div>
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/About">About Me</a></li>
+          <li><a href="/Projects">Projects</a></li>
+          <li><a href="/Contact">Contact Me</a></li>
+        </ul>
+        <div class="bar">
+          <i class="open fa-solid fa-bars-staggered"></i>
+          <i class="close fa-solid fa-xmark"></i>
+        </div>
+      </nav>
+    </div>
+
+     <div class="content">
+      {{{body}}}
+     </div>
+
+
+
+
+
+    <div class="footer">
+      <div class="box">
+        <div class="left">
+          <div class="aboutUsFooter">
+            <p>About Me</p>
+            <div>
+              <p>Frequently Asked Questions</p>
+            </div>
+            <div>
+              <p>Projects</p>
+            </div>
+            <div>
+              <p>More About me</p>
+            </div>
+          </div>
+          <div class="contactUsFooter">
+            <div class="contact">
+              <p>Connect With Me</p>
+              <div>Email - <span>RandomEmail@NAssignment01.com</span></div>
+              <div>Reach Me on My socials below ⇓</div>
+            </div>
+            <div class="icon">
+              <i class="fa-brands fa-square-facebook"></i>
+              <i class="fa-brands fa-instagram"></i>
+              <i class="fa-brands fa-github" href="https://github.com/NetanB"></i>
+              <i class="fa-brands fa-linkedin" href="https://ca.linkedin.com/in/netan-b-8b764013b?trk=public_profile_browsemap" ></i>
+            </div>
+          </div>
+        </div>
+        <div class="right">
+          <div class="newsletter">
+            <p>Subscribe To My Newsletter</p>
+            <div class="email">
+              <input type="email" placeholder="Enter Your Email Here">
+              <button>Subscribe</button>
+    
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="copyrights">
+        Netan Bhardwaj - JavaScript Frameworks Assignment 01
+      </div>
+    </div>
+
+    
+  </body>
+</html>
