@@ -6,7 +6,7 @@ body {
 }
 
 header {
-    background-color: #0072C6;
+    background-color: #000;
     /* Blue */
     color: #FFD700;
     /* Yellow */
@@ -43,7 +43,7 @@ section {
 }
 
 #about {
-    background-color: #FFD700;
+    background-color: #c1ac36;
     /* Yellow */
     color: #0072C6;
 }
