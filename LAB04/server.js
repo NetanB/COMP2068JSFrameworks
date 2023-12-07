@@ -11,7 +11,7 @@ app.get('/', function (req, res) {
     res.render('pages/index');
 });
 
-// about page
+// lebron page
 app.get('/lebron', function (req, res) {
     res.render('pages/lebron');
 });
