@@ -2,8 +2,17 @@ const express = require("express");
 const router = express.Router();
 const Booking = require('../models/booking');
 const Airline = require('../models/airline');
+const passport = require('passport');
 
-// GET users listing. 
+function IsLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/login');
+}
+
+
+// GET users bookings. 
 router.get("/", (req, res, next) =>{
     //res.render("bookings/index", {title: "Bookings" });
     Booking.find((err, bookings) => {
@@ -12,8 +21,10 @@ router.get("/", (req, res, next) =>{
         }
         else {
         res.render("bookings/index",
-         {title: "Bookings", 
-         dataset: bookings,
+         {
+            title: "Bookings", 
+            dataset: bookings,
+            user: req.user
         });
         }
 
@@ -21,7 +32,7 @@ router.get("/", (req, res, next) =>{
 });
 
 
-router.get('/add', (req, res, next) =>{
+router.get('/add',IsLoggedIn, (req, res, next) =>{
     Airline.find((err, airlines) => {
         if (err) {
             console.log(err);
@@ -34,7 +45,7 @@ router.get('/add', (req, res, next) =>{
 
 
 //save
-router.post('/add', (req, res, next) => {
+router.post('/add',IsLoggedIn, (req, res, next) => {
     Booking.create({
         name: req.body.name,
         airlineName: req.body.airlineName,
@@ -54,7 +65,7 @@ router.post('/add', (req, res, next) => {
 });
 
 //delete 
-router.get('/delete/:_id', (req, res, next) => {
+router.get('/delete/:_id',IsLoggedIn, (req, res, next) => {
     // call remove method and pass id as a json object
     Booking.remove({ _id: req.params._id }, (err) => {
         if (err) {
@@ -67,7 +78,7 @@ router.get('/delete/:_id', (req, res, next) => {
 });
 
 // GET handler for Edit operations
-router.get('/edit/:_id', (req, res, next) => {
+router.get('/edit/:_id',IsLoggedIn, (req, res, next) => {
 
     Booking.findById(req.params._id, (err, booking) => {
         if (err) {
@@ -82,7 +93,8 @@ router.get('/edit/:_id', (req, res, next) => {
                     res.render('bookings/edit', {
                         title: 'Edit a Booking',
                         booking: booking,
-                        airlines: airlines
+                        airlines: airlines,
+                        user: req.user
                     });
                 }
             }).sort({ name: 1 });
@@ -91,7 +103,7 @@ router.get('/edit/:_id', (req, res, next) => {
 });
 
 // POST handler for Edit operations
-router.post('/edit/:_id', (req, res, next) => {
+router.post('/edit/:_id',IsLoggedIn, (req, res, next) => {
 
     Booking.findOneAndUpdate({ _id: req.params._id }, {
         airlineName: req.body.airlineName,

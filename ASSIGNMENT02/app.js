@@ -5,15 +5,131 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-//var usersRouter = require('./routes/users');
+var userRouter = require('./routes/users');
 var flightRouter = require('./routes/flights');
 var bookingRouter = require('./routes/bookings');
 var airlineRouter = require('./routes/airlines');
+
+
+const config = require('./config/globals');
+
+const mongoose = require('mongoose');
+const passport = require('passport');
+const githubStrategy = require('passport-github2').Strategy;
+const googleStrategy = require('passport-google-oauth20').Strategy;
+
+
+const session = require('express-session');
+
 var app = express();
 
-//libs
-var config = require('./config/globals');
-var mongoose = require('mongoose');
+
+app.use(session({
+  secret: 'f2023Fl1ghtManag3r',
+  resave: false,
+  saveUninitialized: false
+}));
+
+// Initialize passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(
+  new googleStrategy(
+    {
+      clientID: config.google.clientId,
+      clientSecret: config.google.clientSecret,
+      callbackURL: config.google.callbackUrl,
+      passReqToCallback: true
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      //get the user data from google 
+      const newUser = {
+        googleId: profile.id,
+        displayName: profile.displayName,
+        firstName: profile.name.givenName,
+        lastName: profile.name.familyName,
+        image: profile.photos[0].value,
+        email: profile.emails[0].value
+      }
+
+      try {
+        //find the user in our database 
+        let user = await User.findOne({ googleId: profile.id })
+
+        if (user) {
+          //If user present in our database.
+          done(null, user)
+        } else {
+          // if user is not preset in our database save user data to database.
+          user = await User.create(newUser)
+          done(null, user)
+        }
+      } catch (err) {
+        console.error(err)
+        }
+      }
+    )
+  )
+
+  // used to serialize the user for the session
+  passport.serializeUser((user, done) => {
+    done(null, user.id)
+  })
+
+  // used to deserialize the user
+  passport.deserializeUser((id, done) => {
+    User.findById(id, (err, user) => {
+      done(err, user);
+    });
+  })
+
+
+
+// Link passport to the user model
+const User = require('./models/user');
+passport.use(User.createStrategy());
+
+// Configure passport-github2 with the API keys and user model
+// We need to handle two scenarios: new user, or returning user
+passport.use(new githubStrategy({
+  clientID: config.github.clientId,
+  clientSecret: config.github.clientSecret,
+  callbackURL: config.github.callbackUrl
+},
+  // create async callback function
+  // profile is github profile
+  async (accessToken, refreshToken, profile, done) => {
+    // search user by ID
+    const user = await User.findOne({ oauthId: profile.id });
+    // user exists (returning user)
+    if (user) {
+      // no need to do anything else
+      return done(null, user);
+    }
+    else {
+      // new user so register them in the db
+      const newUser = new User({
+        username: profile.username,
+        oauthId: profile.id,
+        oauthProvider: 'Github',
+        created: Date.now()
+      });
+      // add to DB
+      const savedUser = await newUser.save();
+      // return
+      return done(null, savedUser);
+    }
+  }
+));
+
+// Set passport to write/read user data to/from session object
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -32,7 +148,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/', indexRouter);
-//app.use('/users', usersRouter);
+app.use('/users', userRouter);
 app.use('/flights', flightRouter);
 app.use('/bookings', bookingRouter);
 app.use('/airlines', airlineRouter);

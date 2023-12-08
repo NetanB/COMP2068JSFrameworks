@@ -1,6 +1,6 @@
-/*const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-const airlinesSchemaDefinition = {
+const airlineSchemaDefinition = {
 
     name: {
         type: String,
@@ -12,7 +12,7 @@ const airlinesSchemaDefinition = {
     }
 };
 
-var airlinesSchema = new mongoose.Schema(airlinesSchemaDefinition);
+var airlinesSchema = new mongoose.Schema(airlineSchemaDefinition);
 
 
-module.exports = mongoose.model('Airline', airlinesSchema); */
+module.exports = mongoose.model('Airline', airlinesSchema);
