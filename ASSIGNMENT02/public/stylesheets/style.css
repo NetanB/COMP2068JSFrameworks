@@ -57,3 +57,19 @@ body table {
 .btn {
   margin-bottom: 20px;
 }
+
+.loginPage {
+  margin: 100px;
+}
+
+.registerPage {
+  margin: 100px;
+}
+
+.form-group {
+  margin: 15px;
+}
+
+.locationPage {
+  margin: 100px;
+}

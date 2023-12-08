@@ -1,3 +1,4 @@
+var checkAuthentication = require("./config/googleAuth.js");
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -71,6 +72,30 @@ passport.use(
       }
     )
   )
+app.get('/auth/google', passport.authenticate('google', {
+  scope: ['email', 'profile'],
+}));
+
+app.get("/sign/in", checkAuthentication, (req, res) => {
+  res.redirect("/auth/google/success");
+})
+
+app.get('/auth/google/callback', passport.authenticate('google', {
+  successRedirect: '/auth/google/success',
+  failureRedirect: '/auth/google/failure',
+}));
+
+app.get('/auth/google/success', (req, res) => {
+
+  // create a session state named userDetail containg all info of userInfoVariable
+  req.session.userDetail = userInfoVariable;
+
+  res.redirect("/");
+});
+
+app.get('/auth/google/failure', (req, res) => {
+  res.send("Welcome to failure page");
+});
 
   // used to serialize the user for the session
   passport.serializeUser((user, done) => {
